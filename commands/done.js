@@ -22,7 +22,7 @@ exports.run = async (bot, message, args) => {
 
         const skillsMessage = await message.fetchReference()
         //clears roles
-        //await author.roles.remove(author.roles.cache)
+        await author.roles.remove(author.roles.cache)
         //checks that the user is replying to the skills message
         if (skillsMessage.author.id !== bot.user.id || !skillsMessage.content.startsWith('Let\'s assign your skills!')) {
             await message.reply(wrongReplyError)
