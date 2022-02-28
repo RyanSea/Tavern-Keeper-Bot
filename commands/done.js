@@ -1,10 +1,10 @@
 exports.run = async (bot, message, args) => {
 
     const wrongReplyError = 'Please make sure you are replying to the Skills message when usng \`!done\`'
-    // if (message.channel.type !== 'DM') {
-    //     await message.reply(wrongReplyError)
-    //     return
-    // }
+    if (message.channel.type !== 'DM') {
+        await message.reply(wrongReplyError)
+        return
+    }
 
     const Skills = {
         '💾' : "Dev",
@@ -14,7 +14,7 @@ exports.run = async (bot, message, args) => {
 
     //TODO: turn the Skills message into an embed and put the guild ID inside of embed
     //... to account for the bot being in multiple servers / embeds look better aesthetically
-    const guild = bot.guilds.cache.get('947267772587589704')
+    const guild = bot.guilds.cache.get('911481186013040673')
     const author = guild.members.cache.get(message.author.id)
 
     //checks if the user is replying and sends wrongReplyError if not
