@@ -15,45 +15,45 @@ exports.run = async (bot, message, args) => {
 
     //TODO: turn the Skills message into an embed and put the guild ID inside of embed
     //... to account for the bot being in multiple servers / embeds look better aesthetically
-    const guild = bot.guilds.cache.get('947267772587589704')
+    const guild = bot.guilds.cache.get('911481186013040673')
     const author = guild.members.cache.get(message.author.id)
+    
+    
 
-    //checks if the user is replying and sends wrongReplyError if not
-    // try {
+    // checks if the user is replying and sends wrongReplyError if not
+    try {
 
-        // const skillsMessage = await message.fetchReference()
+        const skillsMessage = await message.fetchReference()
         //clears skills
-        let roles = author.roles.cache.filter(skill => {
-            skillList.includes(skill.name)
-        })
-        console.log(roles)
-        console.log(author.roles.cache)
-        author.roles.remove(roles)
-    //     //checks that the user is replying to the skills message
-    //     if (skillsMessage.author.id !== bot.user.id || !skillsMessage.content.startsWith('Let\'s assign your skills!')) {
-    //         await message.reply(wrongReplyError)
-    //         return
-    //     }
-    //     const reactions = Array.from(skillsMessage.reactions.cache)
-
-    //     let skill, role
-    //     reactions.forEach(async reaction => {
-    //         skill = reaction[1].emoji.name
-    //         //checks if the reaction is a valid skill
-    //         if (skillList.includes(skill)) {
-    //             role = guild.roles.cache.find(r => r.name === Skills[skill]); 
+        let roles = author.roles.cache.filter(role => Object.values(Skills).includes(role.name))
+        await author.roles.remove(roles)
         
-    //             if (skillsMessage.reactions.cache.get(skill).count ===  2) {
-    //                 await author.roles.add(role)
-    //             }
-    //         }
-    //     }) 
-    //     skillsMessage.delete()
-    //     message.channel.send("Skills updated!")
+        
+        //checks that the user is replying to the skills message
+        if (skillsMessage.author.id !== bot.user.id || !skillsMessage.content.startsWith('Let\'s assign your skills!')) {
+            await message.reply(wrongReplyError)
+            return
+        }
+        const reactions = Array.from(skillsMessage.reactions.cache)
 
-    // } catch (error) {
-    //     await message.reply(wrongReplyError)
-    // }
+        let skill, role
+        reactions.forEach(async reaction => {
+            skill = reaction[1].emoji.name
+            //checks if the reaction is a valid skill
+            if (skillList.includes(skill)) {
+                role = guild.roles.cache.find(r => r.name === Skills[skill]); 
+        
+                if (skillsMessage.reactions.cache.get(skill).count ===  2) {
+                    await author.roles.add(role)
+                }
+            }
+        }) 
+        skillsMessage.delete()
+        message.channel.send("Skills updated!")
+
+    } catch (error) {
+        await message.reply(wrongReplyError)
+    }
 
 
 
